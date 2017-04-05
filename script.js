@@ -14,19 +14,32 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 var isPlaying = false;
 var isPauseUserInitiated = false;
 var enableLoseFocus = false;
+var audioLoop = false;
+var autoplay = true;
 
 
 /*------------------------------------*\
   CONSTRUCT AUDIO
 \*------------------------------------*/
-var audio = new Audio('music.mp3')
+var audio = new Audio('music.mp3');
 
+if (autoplay) {
+    audio.play();
+}
+
+
+if (audioLoop) {
+    audio.loop = true;
+} else {
+    audio.loop = false;
+}
 
 /*------------------------------------*\
   METHODS
 \*------------------------------------*/
 function playAudio() {
     if (!isMobile) {
+        audio.volume = 1;
         audio.play();
         isPauseUserInitiated = false;
         isPlaying = true;
@@ -47,50 +60,11 @@ function pauseAudio(options) {
 }
 
 
-
-/*------------------------------------*\
-  CONTROLS
-\*------------------------------------*/
-document.querySelector('.play-audio').addEventListener('click', function() {
-    playAudio();
-}, false);
-
-document.querySelector('.pause-audio').addEventListener('click', function() {
-    pauseAudio();
-}, false);
-
-document.querySelector('.stop-audio').addEventListener('click', function() {
-    pauseAudio({stop: true});
-}, false);
-
-
 var fadeInAudioInterval;
 var fadeOutAudioInterval;
 
 
 // http://stackoverflow.com/questions/7451508/html5-audio-playback-with-fade-in-and-fade-out
-function fadeOutAudio(setVolume) {
-
-    clearInterval(fadeOutAudioInterval);
-
-    fadeInAudioInterval = setInterval(function () {
-
-        if (audio.volume.toFixed(1) > setVolume) {
-            audio.volume -= 0.1;
-        }
-
-        if (parseFloat(audio.volume.toFixed(1)) === setVolume) {
-            
-            clearInterval(fadeInAudioInterval);
-
-            pauseAudio();
-
-        }
-
-    }, 200);
-
-}
-
 function fadeInAudio(setVolume) {
 
     clearInterval(fadeInAudioInterval);
@@ -113,13 +87,31 @@ function fadeInAudio(setVolume) {
 }
 
 
-document.querySelector('.fade-out-audio').addEventListener('click', function() {
-    fadeOutAudio(0);
-}, false);
+function fadeOutAudio(setVolume) {
 
-document.querySelector('.fade-in-audio').addEventListener('click', function() {
-    fadeInAudio(1);
-}, false);
+    clearInterval(fadeOutAudioInterval);
+
+    fadeInAudioInterval = setInterval(function () {
+
+        if (audio.volume.toFixed(1) > setVolume) {
+            audio.volume -= 0.1;
+        }
+
+        if (parseFloat(audio.volume.toFixed(1)) === setVolume) {
+            
+            clearInterval(fadeInAudioInterval);
+
+            if (setVolume === 0) {
+                pauseAudio();
+            }
+
+        }
+
+    }, 200);
+
+}
+
+
 
 
 

@@ -22,6 +22,37 @@
 
 <script>
 
+/*------------------------------------*\
+  CONTROLS
+\*------------------------------------*/
+document.querySelector('.play-audio').addEventListener('click', function() {
+    playAudio();
+}, false);
+
+document.querySelector('.pause-audio').addEventListener('click', function() {
+    pauseAudio();
+}, false);
+
+document.querySelector('.stop-audio').addEventListener('click', function() {
+    pauseAudio({stop: true});
+}, false);
+
+document.querySelector('.fade-out-audio').addEventListener('click', function() {
+    fadeOutAudio(0);
+}, false);
+
+document.querySelector('.fade-in-audio').addEventListener('click', function() {
+    fadeInAudio(1);
+}, false);
+
+
+
+var newAmbienx = new Ambienx({
+    color: 'blue'
+});
+
+newAmbienx.sayColor();
+
 </script>
 
 
