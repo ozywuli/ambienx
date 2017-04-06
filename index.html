@@ -15,6 +15,7 @@
 <button class="stop-audio">Stop audio</button>
 <button class="fade-in-audio">Fade in audio</button>
 <button class="fade-out-audio">Fade out audio</button>
+<button class="toggle-fade-audio">Toggle fade audio</button>
 
 
 <!-- <script src="script.js"></script>     -->
@@ -73,6 +74,14 @@ document.querySelector('.fade-in-audio').addEventListener('click', function() {
 document.querySelector('.fade-out-audio').addEventListener('click', function() {
     newAmbienx.fadeOutAudio(0);
 }, false);
+
+document.querySelector('.toggle-fade-audio').addEventListener('click', function() {
+    newAmbienx.toggleFadeAudio({
+        fadeInVolume: 1,
+        fadeOutVolume: 0
+    });
+}, false);
+
 
 
 </script>

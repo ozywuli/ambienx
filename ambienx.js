@@ -47,6 +47,7 @@ if (typeof Object.assign != 'function') {
         var ambienxState = {
             isMobile: false,
             isPlaying: false,
+            isFading: false,
             isPauseUserInitiated: false
         };
 
@@ -145,8 +146,12 @@ if (typeof Object.assign != 'function') {
         \*------------------------------------*/
 
         Ambienx.prototype.clearIntervals = function() {
-            clearInterval(fadeInAudioInterval);
-            clearInterval(fadeOutAudioInterval);
+
+            if (ambienxState.isFadng) {
+                clearInterval(fadeInAudioInterval);
+                clearInterval(fadeOutAudioInterval);                
+            }
+
         }
 
         Ambienx.prototype.playAudio = function() {
@@ -179,11 +184,10 @@ if (typeof Object.assign != 'function') {
 
             var self = this;
 
-            this.clearIntervals();
+            self.playAudio();
+            self.audio.volume = 0;
 
             fadeOutAudioInterval = setInterval(function () {
-
-                self.playAudio();
 
                 if (self.audio.volume.toFixed(1) < setVolume) {
                     self.audio.volume += 0.1;
@@ -201,8 +205,6 @@ if (typeof Object.assign != 'function') {
         Ambienx.prototype.fadeOutAudio = function(setVolume) {
 
             var self = this;
-
-            this.clearIntervals();
 
             fadeInAudioInterval = setInterval(function () {
 
@@ -222,6 +224,33 @@ if (typeof Object.assign != 'function') {
 
             }, 200);
 
+        }
+
+        Ambienx.prototype.toggleFadeAudio = function(options) {
+            if (ambienxState.isPlaying) {
+
+                var fadeOutVolume;
+
+                if (options.fadeOutVolume) {
+                    fadeOutVolume = options.fadeOutVolume;
+                } else {
+                    fadeOutVolume = 0;
+                }
+                this.fadeOutAudio(fadeOutVolume);
+
+            } else {
+                
+                var fadeInVolume;
+
+                if (options.fadeInVolume) {
+                    fadeInVolume = options.fadeInVolume;
+                } else {
+                    fadeInVolume = 1;
+                }
+                console.log(fadeInVolume);
+                this.fadeInAudio(fadeInVolume);
+
+            }
         }
 
 
