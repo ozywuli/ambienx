@@ -247,7 +247,8 @@ if (typeof Object.assign != 'function') {
                 } else {
                     fadeInVolume = 1;
                 }
-                console.log(fadeInVolume);
+
+
                 this.fadeInAudio(fadeInVolume);
 
             }
