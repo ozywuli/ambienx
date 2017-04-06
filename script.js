@@ -1,4 +1,10 @@
 /*------------------------------------*\
+  OPTIONS
+\*------------------------------------*/
+var audioLoop = false;
+var autoplay = false;
+
+/*------------------------------------*\
   STATE
 \*------------------------------------*/
 
@@ -14,8 +20,7 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 var isPlaying = false;
 var isPauseUserInitiated = false;
 var enableLoseFocus = false;
-var audioLoop = false;
-var autoplay = true;
+
 
 
 /*------------------------------------*\
@@ -128,7 +133,6 @@ if (enableLoseFocus) {
         audio.pause();    
 
     }
-
 
     window.onfocus = function() {
 

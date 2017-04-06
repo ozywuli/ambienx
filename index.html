@@ -17,7 +17,7 @@
 <button class="fade-out-audio">Fade out audio</button>
 
 
-<script src="script.js"></script>    
+<!-- <script src="script.js"></script>     -->
 <script src="ambienx.js"></script>
 
 <script>
@@ -25,33 +25,58 @@
 /*------------------------------------*\
   CONTROLS
 \*------------------------------------*/
-document.querySelector('.play-audio').addEventListener('click', function() {
-    playAudio();
-}, false);
+// document.querySelector('.play-audio').addEventListener('click', function() {
+//     playAudio();
+// }, false);
 
-document.querySelector('.pause-audio').addEventListener('click', function() {
-    pauseAudio();
-}, false);
+// document.querySelector('.pause-audio').addEventListener('click', function() {
+//     pauseAudio();
+// }, false);
 
-document.querySelector('.stop-audio').addEventListener('click', function() {
-    pauseAudio({stop: true});
-}, false);
+// document.querySelector('.stop-audio').addEventListener('click', function() {
+//     pauseAudio({stop: true});
+// }, false);
 
-document.querySelector('.fade-out-audio').addEventListener('click', function() {
-    fadeOutAudio(0);
-}, false);
+// document.querySelector('.fade-out-audio').addEventListener('click', function() {
+//     fadeOutAudio(0);
+// }, false);
 
-document.querySelector('.fade-in-audio').addEventListener('click', function() {
-    fadeInAudio(1);
-}, false);
+// document.querySelector('.fade-in-audio').addEventListener('click', function() {
+//     fadeInAudio(1);
+// }, false);
+
+
+
 
 
 
 var newAmbienx = new Ambienx({
-    color: 'blue'
+    audioSrc: 'music.mp3',
+    audioLoop: false,
+    autoPlay: false,
+    enabledLoseFocus: true
 });
 
-newAmbienx.sayColor();
+document.querySelector('.play-audio').addEventListener('click', function() {
+    newAmbienx.playAudio();
+}, false);
+
+document.querySelector('.pause-audio').addEventListener('click', function() {
+    newAmbienx.pauseAudio();
+}, false);
+
+document.querySelector('.stop-audio').addEventListener('click', function() {
+    newAmbienx.pauseAudio({stop: true});
+}, false);
+
+document.querySelector('.fade-in-audio').addEventListener('click', function() {
+    newAmbienx.fadeInAudio(1);
+}, false);
+
+document.querySelector('.fade-out-audio').addEventListener('click', function() {
+    newAmbienx.fadeOutAudio(0);
+}, false);
+
 
 </script>
 
