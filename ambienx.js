@@ -113,16 +113,10 @@ if (typeof Object.assign != 'function') {
             \*------------------------------------*/
             if (daOptions.enabledLoseFocus) {
                 window.onblur = function() {
-
-                    console.log('you left the tab');
-
                     audio.pause();    
-
                 }
 
                 window.onfocus = function() {
-
-                    console.log('welcome back');
 
                     if (!ambienxState.isPauseUserInitiated) {
                         if (ambienxState.isPlaying) {
@@ -132,6 +126,10 @@ if (typeof Object.assign != 'function') {
                     
                 }
             }
+
+            /*------------------------------------*\
+              METHODS
+            \*------------------------------------*/
 
 
             /*------------------------------------*\
@@ -146,8 +144,15 @@ if (typeof Object.assign != 'function') {
           METHODS
         \*------------------------------------*/
 
+        Ambienx.prototype.clearIntervals = function() {
+            clearInterval(fadeInAudioInterval);
+            clearInterval(fadeOutAudioInterval);
+        }
+
         Ambienx.prototype.playAudio = function() {
             if (!ambienxState.isMobile) {
+                this.clearIntervals();
+
                 this.audio.volume = 1;
                 this.audio.play();
                 ambienxState.isPauseUserInitiated = false;
@@ -156,6 +161,8 @@ if (typeof Object.assign != 'function') {
         }
 
         Ambienx.prototype.pauseAudio = function(options) {
+            this.clearIntervals();
+
             this.audio.pause();
             ambienxState.isPauseUserInitiated = true;
             ambienxState.isPlaying = false;
@@ -172,7 +179,7 @@ if (typeof Object.assign != 'function') {
 
             var self = this;
 
-            clearInterval(fadeInAudioInterval);
+            this.clearIntervals();
 
             fadeOutAudioInterval = setInterval(function () {
 
@@ -195,7 +202,7 @@ if (typeof Object.assign != 'function') {
 
             var self = this;
 
-            clearInterval(fadeOutAudioInterval);
+            this.clearIntervals();
 
             fadeInAudioInterval = setInterval(function () {
 
