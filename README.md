@@ -37,7 +37,9 @@ This method accepts an integer argument (1-10), which controls the target fade v
 
 ```js
 document.querySelector('.fade-in-audio').addEventListener('click', function() {
-    newAmbienx.fadeInAudio(1);
+    newAmbienx.fadeInAudio(1, function() {
+        <!-- execute callback code here -->
+    });
 }, false);
 ```
 
@@ -45,7 +47,9 @@ document.querySelector('.fade-in-audio').addEventListener('click', function() {
 This method accepts an integer argument (1-10), which controls the target fade volume. If the target fade volume is not 0, then the audio will keep playing.
 ```js
 document.querySelector('.fade-out-audio').addEventListener('click', function() {
-    newAmbienx.fadeOutAudio(0);
+    newAmbienx.fadeOutAudio(0, function() {
+        <!-- execute callback code here -->
+    });
 }, false);
 ```
 
