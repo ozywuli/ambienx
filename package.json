@@ -1,6 +1,6 @@
 {
   "name": "ambienx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Background music for your website or app",
   "main": "Ambienx.js",
   "scripts": {
