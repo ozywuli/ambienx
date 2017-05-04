@@ -1,0 +1,26 @@
+{
+  "name": "ambienx",
+  "version": "1.0.0",
+  "description": "Background music for your website or app",
+  "main": "Ambienx.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ozywuli/ambienx.git"
+  },
+  "keywords": [
+    "background",
+    "music",
+    "music",
+    "ambience",
+    "ambienx"
+  ],
+  "author": "ozywuli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ozywuli/ambienx/issues"
+  },
+  "homepage": "https://github.com/ozywuli/ambienx#readme"
+}

@@ -1,6 +1,8 @@
 Ambienx (BackgroundMusic.js)
 ==========
 
+Use some background music to give your website or webapp some ambience.
+
 ```js
 var newAmbienx = new Ambienx({
     audioSrc: 'music.mp3',
