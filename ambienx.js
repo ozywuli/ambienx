@@ -110,6 +110,8 @@ if (typeof Object.assign != 'function') {
 
             if (daOptions.autoPlay) {
                 audio.play();
+                ambienxState.isPauseUserInitiated = false;
+                ambienxState.isPlaying = true;
             }
 
 
@@ -126,6 +128,8 @@ if (typeof Object.assign != 'function') {
                     if (!ambienxState.isPauseUserInitiated) {
                         if (ambienxState.isPlaying) {
                             audio.play();
+                            ambienxState.isPauseUserInitiated = false;
+                            ambienxState.isPlaying = true;
                         }
                     }
 
