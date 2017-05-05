@@ -35,6 +35,7 @@ if (typeof Object.assign != 'function') {
     // DEFINE THE NAME FOR THE PLUGIN AND CALL IT USING AN IIFE
     Ambienx = (function() {
 
+
         /*------------------------------------*\
           AMBIENX STATE
         \*------------------------------------*/
@@ -42,6 +43,8 @@ if (typeof Object.assign != 'function') {
             isMobile: false,
             isPlaying: false,
             isFading: false,
+            isFadingIn: false,
+            isFadingOut: false,
             isPauseUserInitiated: false
         };
 
@@ -83,6 +86,7 @@ if (typeof Object.assign != 'function') {
 
             // AUDIO INSTANCE
             var audio;
+
 
             /*------------------------------------*\
               PUBLIC VARIABLES
@@ -128,10 +132,6 @@ if (typeof Object.assign != 'function') {
                 }
             }
 
-            /*------------------------------------*\
-              METHODS
-            \*------------------------------------*/
-
 
             /*------------------------------------*\
               PRIVATE MADE PUBLIC VARIABLES
@@ -141,18 +141,16 @@ if (typeof Object.assign != 'function') {
 
         };
 
+
         /*------------------------------------*\
           METHODS
         \*------------------------------------*/
 
         Ambienx.prototype.clearIntervals = function() {
-
-            if (ambienxState.isFadng) {
-                clearInterval(fadeInAudioInterval);
-                clearInterval(fadeOutAudioInterval);
-            }
-
+            clearInterval(fadeInAudioInterval);
+            clearInterval(fadeOutAudioInterval);
         }
+
 
         Ambienx.prototype.playAudio = function() {
             if (!ambienxState.isMobile) {
@@ -164,6 +162,7 @@ if (typeof Object.assign != 'function') {
                 ambienxState.isPlaying = true;
             }
         }
+
 
         Ambienx.prototype.pauseAudio = function(options) {
             this.clearIntervals();
@@ -179,57 +178,123 @@ if (typeof Object.assign != 'function') {
             }
         }
 
+
         // http://stackoverflow.com/questions/7451508/html5-audio-playback-with-fade-in-and-fade-out
-        Ambienx.prototype.fadeInAudio = function(setVolume, callback) {
+        Ambienx.prototype.fadeInAudio = function(options) {
 
             var self = this;
 
-            self.playAudio();
-            self.audio.volume = 0;
+            // DEFAULT FADE IN VOLUME
+            var setVolume = 1;
 
-            fadeOutAudioInterval = setInterval(function () {
-
-                if (self.audio.volume.toFixed(1) < setVolume) {
-                    self.audio.volume += 0.1;
+            // IF USER HAS SET A TARGET VOLUME, THEN USE THAT INSTEAD OF THE DEFAULT
+            if (options) {
+                if (options.setVolume) {
+                    setVolume = options.setVolume;
                 }
+            }
 
-                if (parseFloat(self.audio.volume.toFixed(1)) === setVolume) {
-                    clearInterval(fadeOutAudioInterval);
-                }
+            // IF AUDIO ISN'T FADING
+            if (!ambienxState.isFadingIn) {
+                // NOTIFY THAT IT'S NOT FADING OUT ANYMORE
+                ambienxState.isFadingOut = false;
 
-            }, 200);
+                // NOTIFY THAT IT'S FADING IN
+                ambienxState.isFadingIn = true;        
 
-        }
+                // GET THE AUDIO READY AT 0
+                self.playAudio();
+                self.audio.volume = 0;
 
+                // FADE IN AUDIO
+                fadeInAudioInterval = setInterval(function () {
 
-        Ambienx.prototype.fadeOutAudio = function(setVolume, callback) {
-
-            var self = this;
-
-            fadeInAudioInterval = setInterval(function () {
-
-                if (self.audio.volume.toFixed(1) > setVolume) {
-                    self.audio.volume -= 0.1;
-                }
-
-                if (parseFloat(self.audio.volume.toFixed(1)) === setVolume) {
-
-                    clearInterval(fadeInAudioInterval);
-
-                    if (setVolume === 0) {
-                        self.pauseAudio();
-
-                        // execute the callback when volume ends
-                        callback();
+                    // FADE IN AUDIO IF VOLUME IS LESS THAN THE TARGET VOLUME
+                    if (self.audio.volume.toFixed(1) < setVolume) {
+                        self.audio.volume += 0.1;
                     }
 
+                    // WHEN WE REACH THE TARGET VOLUME
+                    if (parseFloat(self.audio.volume.toFixed(1)) === setVolume) {
+                        ambienxState.isFadingIn = false;
+
+                        // IF THERE'S A CALLBACK, EXECUTE IT
+                        if (options) {
+                            if (options.callback) {
+                                options.callback();
+                            }
+                        }
+
+                        clearInterval(fadeInAudioInterval);
+                    }
+
+                }, 200);
+
+            }
+
+        } // END `fadeInAudio` PROTOTYPE
+
+
+        Ambienx.prototype.fadeOutAudio = function(options) {
+
+            var self = this;
+
+            this.clearIntervals();
+
+            // DEFAULT FADE OUT VOLUME
+            var setVolume = 0;
+
+            // IF USER HAS SET A TARGET VOLUME, THEN USE THAT INSTEAD OF THE DEFAULT
+            if (options) {
+                if (options.setVolume) {
+                    setVolume = options.setVolume;
                 }
+            }
 
-            }, 200);
+            // IF AUDIO IS FADING
+            if (!ambienxState.isFadingOut) {
+                // NOTIFY THAT IT'S NOT FADING IN ANYMORE
+                ambienxState.isFadingIn = false;
+                    
+                // NOTIFY THAT IT'S FADING OUT
+                ambienxState.isFadingOut = true;
 
-        }
+                fadeOutAudioInterval = setInterval(function () {
+
+                    // FADE OUT AUDIO IF VOLUME IS GREATER THAN THE TARGET VOLUME
+                    if (self.audio.volume.toFixed(1) > setVolume) {
+                        self.audio.volume -= 0.1;
+                    }
+
+                    // WHEN WE REACH THE TARGET VOLUME
+                    if (parseFloat(self.audio.volume.toFixed(1)) === setVolume) {
+
+                        ambienxState.isFadingOut = false;
+
+                        if (setVolume === 0) {
+                            self.pauseAudio();
+
+                            // IF THERE'S A CALLBACK, EXECUTE IT
+                            if (options) {
+                                if (options.callback) {
+                                    options.callback();
+                                }
+                            }
+
+                            clearInterval(fadeOutAudioInterval);
+                        }
+
+                    }
+
+                }, 200);
+
+            }
+
+        } // END `fadeOutAudio` PROTOTYPE
+
 
         Ambienx.prototype.toggleFadeAudio = function(options) {
+            
             if (ambienxState.isPlaying) {
 
                 var fadeOutVolume;
@@ -262,8 +327,6 @@ if (typeof Object.assign != 'function') {
         }
 
 
-
-
         // RETURN Ambienx SO THAT IT CAN BE INSTANTIATED WITH TNE `new` KEYWORD
         return Ambienx;
 
@@ -282,7 +345,6 @@ if (typeof Object.assign != 'function') {
     } else {
         window.Ambienx = Ambienx;
     }
-
 
 
 // WHAT IS THIS FOR?

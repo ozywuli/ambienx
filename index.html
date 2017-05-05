@@ -68,11 +68,21 @@ document.querySelector('.stop-audio').addEventListener('click', function() {
 }, false);
 
 document.querySelector('.fade-in-audio').addEventListener('click', function() {
-    newAmbienx.fadeInAudio(1);
+    newAmbienx.fadeInAudio({
+        setVolume: 1,
+        callback: function() {
+            console.log('faded in');
+        }
+    });
 }, false);
 
 document.querySelector('.fade-out-audio').addEventListener('click', function() {
-    newAmbienx.fadeOutAudio(0);
+    newAmbienx.fadeOutAudio({
+        setVolume: 0,
+        callback: function() {
+            console.log('faded out');
+        }
+    });
 }, false);
 
 document.querySelector('.toggle-fade-audio').addEventListener('click', function() {
