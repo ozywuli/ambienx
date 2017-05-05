@@ -71,6 +71,12 @@ document.querySelector('.toggle-fade-audio').addEventListener('click', function(
 }, false);
 
 
+window.setTimeout(function() {
+    newAmbienx.pauseAudio({isPauseUserInitiated: false});
+}, 5000);
+
+
+console.log(newAmbienx.ambienxState);
 
 </script>
 
