@@ -29,7 +29,7 @@
 var newAmbienx = new Ambienx({
     audioSrc: 'music.mp3',
     audioLoop: false,
-    autoPlay: true,
+    autoPlay: false,
     enabledLoseFocus: true
 });
 
@@ -72,11 +72,9 @@ document.querySelector('.toggle-fade-audio').addEventListener('click', function(
 
 
 window.setTimeout(function() {
-    newAmbienx.pauseAudio({isPauseUserInitiated: false});
+    // newAmbienx.pauseAudio({isPauseUserInitiated: false});
 }, 5000);
 
-
-console.log(newAmbienx.ambienxState);
 
 </script>
 

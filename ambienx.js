@@ -45,7 +45,7 @@ if (typeof Object.assign != 'function') {
             isFading: false,
             isFadingIn: false,
             isFadingOut: false,
-            isPauseUserInitiated: false
+            isPauseUserInitiated: true
         };
 
 
@@ -163,9 +163,9 @@ if (typeof Object.assign != 'function') {
             if (!ambienxState.isMobile) {
                 this.clearIntervals();
 
-                this.audio.volume = 1;
+                this.audio.volume = 0.5;
                 this.audio.play();
-                ambienxState.isPauseUserInitiated = true;
+                ambienxState.isPauseUserInitiated = false;
                 ambienxState.isPlaying = true;
             }
         }
@@ -198,7 +198,7 @@ if (typeof Object.assign != 'function') {
             var self = this;
 
             // DEFAULT FADE IN VOLUME
-            var setVolume = 1;
+            var setVolume = 0.5;
 
             // IF USER HAS SET A TARGET VOLUME, THEN USE THAT INSTEAD OF THE DEFAULT
             if (options) {
@@ -213,7 +213,7 @@ if (typeof Object.assign != 'function') {
                 ambienxState.isFadingOut = false;
 
                 // NOTIFY THAT IT'S FADING IN
-                ambienxState.isFadingIn = true;        
+                ambienxState.isFadingIn = true;
 
                 // GET THE AUDIO READY AT 0
                 self.playAudio();
@@ -254,6 +254,8 @@ if (typeof Object.assign != 'function') {
 
             this.clearIntervals();
 
+            ambienxState.isPlaying = false;
+
             // DEFAULT FADE OUT VOLUME
             var setVolume = 0;
 
@@ -268,7 +270,7 @@ if (typeof Object.assign != 'function') {
             if (!ambienxState.isFadingOut) {
                 // NOTIFY THAT IT'S NOT FADING IN ANYMORE
                 ambienxState.isFadingIn = false;
-                    
+
                 // NOTIFY THAT IT'S FADING OUT
                 ambienxState.isFadingOut = true;
 
@@ -307,7 +309,7 @@ if (typeof Object.assign != 'function') {
 
 
         Ambienx.prototype.toggleFadeAudio = function(options) {
-            
+
             if (ambienxState.isPlaying) {
 
                 var fadeOutVolume;
@@ -331,7 +333,7 @@ if (typeof Object.assign != 'function') {
                         fadeInVolume = options.fadeInVolume;
                     }
                 } else {
-                   fadeInVolume = 1;
+                   fadeInVolume = 0.5;
                 }
 
                 this.fadeInAudio(fadeInVolume);
