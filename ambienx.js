@@ -254,6 +254,7 @@ if (typeof Object.assign != 'function') {
 
             this.clearIntervals();
 
+            ambienxState.isPauseUserInitiated = true;
             ambienxState.isPlaying = false;
 
             // DEFAULT FADE OUT VOLUME
