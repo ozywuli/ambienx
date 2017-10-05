@@ -254,7 +254,12 @@ if (typeof Object.assign != 'function') {
 
             this.clearIntervals();
 
-            ambienxState.isPauseUserInitiated = true;
+            if (options) {
+                if (options.isPauseUserInitiated) {
+                    ambienxState.isPauseUserInitiated = true;
+                }
+            }
+
             ambienxState.isPlaying = false;
 
             // DEFAULT FADE OUT VOLUME
@@ -323,7 +328,7 @@ if (typeof Object.assign != 'function') {
                     fadeOutVolume = 0;
                 }
 
-                this.fadeOutAudio(fadeOutVolume);
+                this.fadeOutAudio(options);
 
             } else {
 
@@ -337,7 +342,7 @@ if (typeof Object.assign != 'function') {
                    fadeInVolume = 0.5;
                 }
 
-                this.fadeInAudio(fadeInVolume);
+                this.fadeInAudio(options);
 
             }
         }
