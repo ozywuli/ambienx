@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ambienx.js</title>
+
+</head>
+<body>
+
+<button class="play-audio">Play audio</button>
+<button class="pause-audio">Pause audio</button>
+<button class="stop-audio">Stop audio</button>
+<button class="fade-in-audio">Fade in audio</button>
+<button class="fade-out-audio">Fade out audio</button>
+<button class="toggle-fade-audio">Toggle fade audio</button>
+
+
+
+<script src="./Ambienx.js"></script>
+
+<script>
+
+/*------------------------------------*\
+  CONTROLS
+\*------------------------------------*/
+var newAmbienx = new Ambienx({
+    audioSrc: '/audio/music.mp3',
+    audioLoop: false,
+    autoPlay: false,
+    enabledLoseFocus: true
+});
+
+document.querySelector('.play-audio').addEventListener('click', function() {
+    newAmbienx.playAudio();
+}, false);
+
+document.querySelector('.pause-audio').addEventListener('click', function() {
+    newAmbienx.pauseAudio();
+}, false);
+
+document.querySelector('.stop-audio').addEventListener('click', function() {
+    newAmbienx.pauseAudio({stop: true});
+}, false);
+
+document.querySelector('.fade-in-audio').addEventListener('click', function() {
+    newAmbienx.fadeInAudio({
+        setVolume: 1,
+        callback: function() {
+            console.log('faded in');
+        }
+    });
+}, false);
+
+document.querySelector('.fade-out-audio').addEventListener('click', function() {
+    newAmbienx.fadeOutAudio({
+        setVolume: 0,
+        callback: function() {
+            console.log('faded out');
+        }
+    });
+}, false);
+
+document.querySelector('.toggle-fade-audio').addEventListener('click', function() {
+    newAmbienx.toggleFadeAudio({
+        fadeInVolume: 1,
+        fadeOutVolume: 0
+    });
+}, false);
+
+
+window.setTimeout(function() {
+    // newAmbienx.pauseAudio({isPauseUserInitiated: false});
+}, 5000);
+
+
+</script>
+
+
+</body>
+</html>
