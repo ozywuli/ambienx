@@ -50,6 +50,7 @@ if (typeof Object.assign != 'function') {
         \*------------------------------------*/
         let fadeInAudioInterval;
         let fadeOutAudioInterval;
+        let daOptions;
         /*------------------------------------*\
           AMBIENX
         \*------------------------------------*/
@@ -68,7 +69,7 @@ if (typeof Object.assign != 'function') {
             // USER OPTIONS/SETTINGS
             let userOptions = options;
             // MERGE OPTIONS/SETTINGS
-            let daOptions = Object.assign({}, defaultOptions, userOptions);
+            daOptions = Object.assign({}, defaultOptions, userOptions);
             // AUDIO INSTANCE
             let audio;
             /*------------------------------------*\
@@ -124,7 +125,7 @@ if (typeof Object.assign != 'function') {
         Ambienx.prototype.playAudio = function() {
             if (!ambienxState.isMobile) {
                 this.clearIntervals();
-                this.audio.volume = 0.5;
+                this.audio.volume = daOptions.volume;
                 this.audio.play();
                 ambienxState.isTriggered = true;
                 ambienxState.isPauseUserInitiated = false;
@@ -149,7 +150,7 @@ if (typeof Object.assign != 'function') {
         Ambienx.prototype.fadeInAudio = function(options) {
             let self = this;
             // DEFAULT FADE IN VOLUME
-            let setVolume = 0.5;
+            let setVolume = daOptions.volume;
             // IF USER HAS SET A TARGET VOLUME, THEN USE THAT INSTEAD OF THE DEFAULT
             if (options) {
                 if (options.setVolume) {
@@ -248,7 +249,7 @@ if (typeof Object.assign != 'function') {
                         fadeInVolume = options.fadeInVolume;
                     }
                 } else {
-                   fadeInVolume = 0.5;
+                   fadeInVolume = daOptions.volume;
                 }
                 this.fadeInAudio(options);
             }
