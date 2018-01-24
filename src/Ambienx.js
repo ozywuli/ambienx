@@ -64,7 +64,8 @@ if (typeof Object.assign != 'function') {
                 audioSrc: '',
                 audioLoop: false,
                 autoPlay: false,
-                enabledLoseFocus: false
+                enabledLoseFocus: false,
+                volume: 1
             }
             // USER OPTIONS/SETTINGS
             let userOptions = options;
